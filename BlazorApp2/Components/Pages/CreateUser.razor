@@ -1,0 +1,52 @@
+@page "/create-user"
+@using BlazorApp2.Data
+
+@inject AppDbContext Db
+
+<h3>Создать пользователя</h3>
+
+<div class="mb-3">
+    <input class="form-control" @bind="Name" placeholder="Имя" />
+</div>
+<div class="mb-3">
+    <input class="form-control" @bind="Email" placeholder="Email" />
+</div>
+
+<button class="btn btn-primary" @onclick="OnCreateUser">Создать</button>
+
+@if (!string.IsNullOrEmpty(Message))
+{
+    <p class="alert alert-success mt-3">@Message</p>
+}
+
+@code {
+    private string Name { get; set; } = "";
+    private string Email { get; set; } = "";
+    private string Message { get; set; } = "";
+
+    private async Task OnCreateUser()
+    {
+        if (string.IsNullOrWhiteSpace(Name) || string.IsNullOrWhiteSpace(Email))
+        {
+            Message = "Введите имя и email!";
+            return;
+        }
+
+        var user = new BlazorApp2.Models.User
+        {
+            Name = Name,
+            Email = Email
+        };
+
+        Db.Users.Add(user);
+        await Db.SaveChangesAsync();
+        
+        Console.WriteLine("OnCreateUser вызван"); // <- проверка
+        
+        Message = $"Пользователь {Name} добавлен!";
+
+        // Очистка формы
+        Name = "";
+        Email = "";
+    }
+}
