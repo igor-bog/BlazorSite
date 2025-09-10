@@ -1,0 +1,31 @@
+@page "/contact"
+@rendermode InteractiveServer
+@using BlazorApp2.Models
+@inject BlazorApp2.Data.AppDbContext Db
+
+<h3>Связаться с администрацией</h3>
+
+@if (!string.IsNullOrEmpty(successMessage))
+{
+    <div class="alert alert-success">@successMessage</div>
+}
+
+<textarea class="form-control mb-2" @bind="messageText" rows="4" placeholder="Введите ваше сообщение..."></textarea>
+<button class="btn btn-primary" @onclick="SendMessage">Отправить</button>
+
+@code {
+    private string messageText = "";
+    private string? successMessage;
+
+    private async Task SendMessage()
+    {
+        if (!string.IsNullOrWhiteSpace(messageText))
+        {
+            var msg = new Message { Content = messageText };
+            Db.Messages.Add(msg);
+            await Db.SaveChangesAsync();
+            successMessage = "Сообщение отправлено!";
+            messageText = ""; // очистим поле
+        }
+    }
+}
