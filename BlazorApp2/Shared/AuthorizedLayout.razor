@@ -1,0 +1,32 @@
+
+@inherits LayoutComponentBase
+
+<div class="authorized-layout p-4">
+    <header class="mb-4">
+        <h2>Панель пользователя</h2>
+        <nav>
+           <button type="button" class="btn btn-secondary me-2" @onclick="GoToContact">Связаться с админом</button>
+<button type="button" class="btn btn-danger" @onclick="Logout">Выйти</button>
+
+        </nav>
+    </header>
+
+    <main>
+        @Body
+    </main>
+</div>
+
+@code {
+    [Inject]  NavigationManager Navigation { get; set; } = default!;
+
+    private void GoToContact()
+    {
+        Navigation.NavigateTo("/contact");
+    }
+
+    private void Logout()
+    {
+        // Простой выход — перенаправление на login
+        Navigation.NavigateTo("/login", true);
+    }
+}

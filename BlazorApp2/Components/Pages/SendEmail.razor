@@ -1,0 +1,45 @@
+@page "/send-email"
+@rendermode InteractiveServer
+
+@inject EmailService EmailService
+
+<h3>Отправить письмо с почты: testuser198626123@gmail.com</h3>
+
+<div class="mb-3">
+    <label>Кому (Email):</label>
+    <input @bind="toEmail" class="form-control" />
+</div>
+
+<div class="mb-3">
+    <label>Тема:</label>
+    <input @bind="subject" class="form-control" />
+</div>
+
+<div class="mb-3">
+    <label>Сообщение:</label>
+    <textarea @bind="body" class="form-control"></textarea>
+</div>
+
+<button class="btn btn-primary" @onclick="SendMessage">Отправить</button>
+
+<p>@statusMessage</p>
+
+@code {
+    private string toEmail;
+    private string subject;
+    private string body;
+    private string statusMessage;
+
+    private async Task SendMessage()
+    {
+        try
+        {
+            await EmailService.SendEmailAsync(toEmail, subject, body);
+            statusMessage = "Сообщение успешно отправлено!";
+        }
+        catch (Exception ex)
+        {
+            statusMessage = $"Ошибка: {ex.Message}";
+        }
+    }
+}

@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+@using Microsoft.AspNetCore.Components.Authorization
 
 <head>
     <meta charset="utf-8" />
@@ -14,6 +15,8 @@
 </head>
 
 <body>
+<CascadingAuthenticationState>
+
     <Router AppAssembly="@typeof(Program).Assembly">
         <Found Context="routeData">
             <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)" />
@@ -25,8 +28,10 @@
             </LayoutView>
         </NotFound>
     </Router>
+</CascadingAuthenticationState>
 
     <script src="_framework/blazor.server.js"></script>
+
 </body>
 
 

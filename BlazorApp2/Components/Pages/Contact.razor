@@ -1,9 +1,15 @@
 @page "/contact"
+@layout BlazorApp2.Components.Layout.MainLayout
+@using Microsoft.AspNetCore.Components.Authorization
+
 @rendermode InteractiveServer
 @using BlazorApp2.Models
 @inject BlazorApp2.Data.AppDbContext Db
+@inject AuthenticationStateProvider AuthStateProvider
 
-<h3>Связаться с администрацией</h3>
+
+
+<h3>Связаться с администрацией по e-mail: adminblazor@email.com</h3>
 
 @if (!string.IsNullOrEmpty(successMessage))
 {

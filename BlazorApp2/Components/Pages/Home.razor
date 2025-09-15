@@ -2,11 +2,23 @@
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Добро пожаловать!</h1>
 
-Welcome to your new app.
+<p>Выберите действие:</p>
 
-<!-- Кнопка перехода -->
-<NavLink class="btn btn-primary" href="/create-user">
-    Создать пользователя
-</NavLink>
+<div class="d-flex gap-2">
+    <!-- Кнопка перехода на регистрацию -->
+    <NavLink class="btn btn-success" href="/register">
+        Регистрация
+    </NavLink>
+
+    <!-- Кнопка перехода на логин -->
+    <NavLink class="btn btn-primary" href="/login">
+        Войти
+    </NavLink>
+
+    <!-- Кнопка перехода на создание пользователя -->
+    <NavLink class="btn btn-secondary" href="/create-user">
+        Создать пользователя
+    </NavLink>
+</div>

@@ -6,6 +6,7 @@ using MongoDB.Driver;
 using BlazorApp2.Data;
 using Microsoft.EntityFrameworkCore;
 using BlazorApp2.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 
 
 
@@ -18,8 +19,12 @@ builder.Services.AddSingleton<IMongoClient>(sp =>
     return new MongoClient("mongodb://localhost:27017");
 });
 
+builder.Services.AddSingleton<EmailService>();
 
 builder.Services.AddSingleton<UserService>();
+
+builder.Services.AddAuthorizationCore();
+builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
 
 
 // Add services to the container.

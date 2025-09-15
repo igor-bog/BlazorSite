@@ -1,0 +1,59 @@
+@page "/register"
+@rendermode InteractiveServer
+
+@using BlazorApp2.Models
+@inject BlazorApp2.Data.AppDbContext Db
+
+<h3>Регистрация</h3>
+
+@if (!string.IsNullOrEmpty(successMessage))
+{
+    <div class="alert alert-success">@successMessage</div>
+}
+
+<div class="mb-3">
+    <label class="form-label">Логин</label>
+    <input class="form-control" @bind="username" />
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Пароль</label>
+    <input type="password" class="form-control" @bind="password" />
+</div>
+
+<button class="btn btn-primary" @onclick="RegisterUser">Зарегистрироваться</button>
+
+@code {
+    private string username = "";
+    private string password = "";
+    private string? successMessage;
+
+    private async Task RegisterUser()
+    {
+        if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+        {
+            successMessage = "Введите логин и пароль!";
+            return;
+        }
+
+        // Проверим, что логин не занят
+        if (Db.AuthUsers.Any(u => u.Username == username))
+        {
+            successMessage = "Такой логин уже существует!";
+            return;
+        }
+
+        var newUser = new AuthUser
+        {
+            Username = username,
+            PasswordHash = password // пока хранится как есть
+        };
+
+        Db.AuthUsers.Add(newUser);
+        await Db.SaveChangesAsync();
+
+        successMessage = "Регистрация прошла успешно!";
+        username = "";
+        password = "";
+    }
+}

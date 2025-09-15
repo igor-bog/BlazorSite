@@ -1,0 +1,38 @@
+@page "/login"
+@rendermode InteractiveServer
+
+@using BlazorApp2.Models
+@inject BlazorApp2.Data.AppDbContext Db
+@inject NavigationManager Navigation
+
+
+<h3>Авторизация</h3>
+
+<input placeholder="Имя пользователя" @bind="username" />
+<input type="password" placeholder="Пароль" @bind="password" />
+<button class="btn btn-primary" @onclick="LoginUser">Войти</button>
+
+@if (!string.IsNullOrEmpty(message))
+{
+    <p>@message</p>
+}
+
+@code {
+    private string username = "";
+    private string password = "";
+    private string message = "";
+
+    private void LoginUser()
+    {
+        var user = Db.AuthUsers.FirstOrDefault(u => u.Username == username && u.PasswordHash == password);
+        if (user != null)
+        {
+            // Успешный вход — редирект
+            Navigation.NavigateTo("/AuthorizedPage", forceLoad: true);
+        }
+        else
+        {
+            message = "Неверные данные.";
+        }
+    }
+}
